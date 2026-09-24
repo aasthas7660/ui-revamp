@@ -15,7 +15,7 @@ export const Route = createFileRoute("/leaderboard")({
 });
 
 function LeaderboardPage() {
-  const max = mockLeaderboard[0].xp;
+  const max = Math.max(...mockLeaderboard.map((e) => e.xp));
   return (
     <div className="mx-auto max-w-3xl px-5 py-12">
       <SectionHeading eyebrow="Season 1" title="Quest Leaderboard" />

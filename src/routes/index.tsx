@@ -52,7 +52,7 @@ function Home() {
       <section id="how" className="scroll-mt-24 py-16">
         <SectionHeading eyebrow="4 steps" title="How the quest works" />
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {mockSteps.map((s, i) => <StepCard key={s.n} {...s} tone={tones[i]} />)}
+          {mockSteps.map((s, i) => <StepCard key={s.n} {...s} tone={tones[i % tones.length] ?? "cream"} />)}
         </div>
       </section>
     </div>
