@@ -12,7 +12,7 @@ const variants: Record<Variant, string> = {
 };
 export const btnClass = (v: Variant = "primary", extra?: string) =>
   cn(
-    "inline-flex items-center justify-center gap-2 rounded-2xl border-[3px] border-ink px-6 py-3 font-display text-sm font-extrabold uppercase tracking-wide shadow-[var(--shadow-block)] transition-all duration-150 hover:-translate-x-0.5 hover:-translate-y-0.5 active:translate-x-1 active:translate-y-1 active:shadow-none disabled:opacity-50",
+    "inline-flex items-center justify-center gap-2 rounded-2xl border-[3px] border-ink px-6 py-3 font-display text-sm font-extrabold uppercase tracking-wide shadow-[var(--shadow-btn,var(--shadow-block))] transition-all duration-150 hover:-translate-x-0.5 hover:-translate-y-0.5 active:translate-x-1 active:translate-y-1 active:shadow-none disabled:opacity-50",
     variants[v],
     extra,
   );
