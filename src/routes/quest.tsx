@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { mockQuest as q } from "@/data/mock";
+import { useActiveQuest, toQuest } from "@/lib/db";
 import { QuestCard, btnClass } from "@/components/quest/ui";
 
 export const Route = createFileRoute("/quest")({
@@ -25,6 +25,9 @@ function Block({ title, children, tone = "card" }: { title: string; children: Re
 }
 
 function QuestPage() {
+  const { data: row, isLoading } = useActiveQuest();
+  if (!row) return <div className="mx-auto max-w-6xl px-5 py-20 text-center font-display text-2xl font-extrabold">{isLoading ? "Loading quest…" : "No active quest right now."}</div>;
+  const q = toQuest(row);
   return (
     <div className="mx-auto max-w-6xl px-5 py-12">
       <div className="grid gap-8 lg:grid-cols-[1fr_1.2fr]">
@@ -41,7 +44,7 @@ function QuestPage() {
             </ul>
           </Block>
           <Block title="Target website" tone="primary">
-            <div className="font-display text-2xl font-extrabold">{q.targetWebsite.name}</div>
+            <div className="font-display text-2xl font-extrabold break-all">{q.targetWebsite.name}</div>
             <a href={q.targetWebsite.url} target="_blank" rel="noreferrer" className="mt-1 inline-block underline underline-offset-4">{q.targetWebsite.url}</a>
           </Block>
           <Block title="Deliverables" tone="secondary">
