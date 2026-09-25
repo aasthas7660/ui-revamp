@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import mascot from "@/assets/hero-mascot.png";
-import { mockQuest, mockSteps } from "@/data/mock";
+import { mockSteps } from "@/data/mock";
+import { useActiveQuest, toQuest } from "@/lib/db";
 import { QuestCard, SectionHeading, StepCard, btnClass } from "@/components/quest/ui";
 
 export const Route = createFileRoute("/")({
@@ -18,6 +19,8 @@ export const Route = createFileRoute("/")({
 const tones = ["cream", "primary", "secondary", "cream"] as const;
 
 function Home() {
+  const { data: row, isLoading } = useActiveQuest();
+  const quest = row ? toQuest(row) : null;
   return (
     <div className="mx-auto max-w-6xl px-5">
       <section className="grid items-center gap-10 py-12 md:grid-cols-[1.1fr_1fr] md:py-20">
@@ -40,13 +43,13 @@ function Home() {
           <div className="card-block animate-float bg-card p-4">
             <img src={mascot} alt="Hand-drawn paper character redesigning a website" width={1024} height={1024} className="w-full" />
           </div>
-          <span className="absolute -left-3 top-6 rotate-[-8deg] rounded-xl border-2 border-ink bg-secondary px-3 py-1 font-display font-extrabold text-ink">+500 XP</span>
+          <span className="absolute -left-3 top-6 rotate-[-8deg] rounded-xl border-2 border-ink bg-secondary px-3 py-1 font-display font-extrabold text-ink">+{quest?.xp ?? 500} XP</span>
         </div>
       </section>
 
       <section className="grid items-center gap-8 py-10 md:grid-cols-2">
         <SectionHeading eyebrow="Live now" title="Current Quest" sub="The clock is ticking. Redesign, deploy, submit — and climb the leaderboard." />
-        <QuestCard quest={mockQuest} compact />
+        {quest ? <QuestCard quest={quest} compact /> : <div className="card-block p-8 font-display font-bold">{isLoading ? "Loading quest…" : "No active quest right now — check back soon."}</div>}
       </section>
 
       <section id="how" className="scroll-mt-24 py-16">

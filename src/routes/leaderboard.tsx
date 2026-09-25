@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { mockLeaderboard } from "@/data/mock";
+import { useLeaderboard } from "@/lib/db";
 import { LeaderboardCard, SectionHeading } from "@/components/quest/ui";
 
 export const Route = createFileRoute("/leaderboard")({
@@ -15,12 +15,13 @@ export const Route = createFileRoute("/leaderboard")({
 });
 
 function LeaderboardPage() {
-  const max = Math.max(...mockLeaderboard.map((e) => e.xp));
+  const { data: rows = [] } = useLeaderboard();
+  const max = Math.max(1, ...rows.map((e) => e.xp));
   return (
     <div className="mx-auto max-w-3xl px-5 py-12">
       <SectionHeading eyebrow="Season 1" title="Quest Leaderboard" />
       <div className="space-y-4">
-        {mockLeaderboard.map((e) => <LeaderboardCard key={e.rank} {...e} max={max} />)}
+        {rows.map((e, i) => <LeaderboardCard key={e.id} rank={i + 1} name={e.name} members={e.members} xp={e.xp} max={max} />)}
       </div>
     </div>
   );

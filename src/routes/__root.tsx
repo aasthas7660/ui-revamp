@@ -13,6 +13,9 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { Navbar } from "@/components/quest/Navbar";
+import { ThemeApplier } from "@/components/quest/ThemeApplier";
+import { AuthProvider } from "@/lib/auth";
+import { Toaster } from "@/components/ui/sonner";
 
 function NotFoundComponent() {
   return (
@@ -121,6 +124,9 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+      <ThemeApplier />
+      <Toaster />
       <Navbar />
       <main key={pathname} className="animate-page-in">
         <Outlet />
@@ -128,6 +134,7 @@ function RootComponent() {
       <footer className="mx-auto max-w-6xl px-5 py-10 text-center font-display text-sm text-text/50">
         UI REVAMP · A Tech Titans Quest
       </footer>
+      </AuthProvider>
     </QueryClientProvider>
   );
 }

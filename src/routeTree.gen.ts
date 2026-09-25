@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ChallengeRouteImport } from './routes/challenge'
 import { Route as LeaderboardRouteImport } from './routes/leaderboard'
 import { Route as QuestRouteImport } from './routes/quest'
@@ -18,6 +19,11 @@ import { Route as RulesRouteImport } from './routes/rules'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ChallengeRoute = ChallengeRouteImport.update({
@@ -43,6 +49,7 @@ const RulesRoute = RulesRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/challenge': typeof ChallengeRoute
   '/leaderboard': typeof LeaderboardRoute
   '/quest': typeof QuestRoute
@@ -50,6 +57,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/challenge': typeof ChallengeRoute
   '/leaderboard': typeof LeaderboardRoute
   '/quest': typeof QuestRoute
@@ -58,6 +66,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/challenge': typeof ChallengeRoute
   '/leaderboard': typeof LeaderboardRoute
   '/quest': typeof QuestRoute
@@ -65,14 +74,22 @@ export interface FileRoutesById {
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/challenge' | '/leaderboard' | '/quest' | '/rules'
+  fullPaths: '/' | '/auth' | '/challenge' | '/leaderboard' | '/quest' | '/rules'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/challenge' | '/leaderboard' | '/quest' | '/rules'
-  id: '__root__' | '/' | '/challenge' | '/leaderboard' | '/quest' | '/rules'
+  to: '/' | '/auth' | '/challenge' | '/leaderboard' | '/quest' | '/rules'
+  id:
+    | '__root__'
+    | '/'
+    | '/auth'
+    | '/challenge'
+    | '/leaderboard'
+    | '/quest'
+    | '/rules'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthRoute: typeof AuthRoute
   ChallengeRoute: typeof ChallengeRoute
   LeaderboardRoute: typeof LeaderboardRoute
   QuestRoute: typeof QuestRoute
@@ -86,6 +103,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/challenge': {
@@ -121,6 +145,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthRoute: AuthRoute,
   ChallengeRoute: ChallengeRoute,
   LeaderboardRoute: LeaderboardRoute,
   QuestRoute: QuestRoute,
