@@ -24,12 +24,12 @@ export const mockQuest: Quest = {
   title: "UI Revamp Challenge",
   description:
     "Take an existing website. Reimagine its interface. Build your version — cleaner, bolder, and actually fun to use.",
-  xp: 500,
+  xp: 50,
   difficulty: "Medium",
   status: "open",
   endsAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 3 + 1000 * 60 * 60 * 7).toISOString(),
   progress: 62,
-  targetWebsite: { name: "Old Campus Portal", url: "https://example.com" },
+  targetWebsite: { name: "TechTitans", url: "https://techtitansweb26-beta.vercel.app/home" },
   details: [
     "Redesign the homepage of the assigned target website.",
     "Keep the core content, rethink layout, hierarchy and visuals.",
