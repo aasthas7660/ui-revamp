@@ -105,13 +105,16 @@ export function StepCard({ n, title, text, tone }: { n: string; title: string; t
   );
 }
 
-export function RuleCard({ index, text }: { index: number; text: string }) {
+export function RuleCard({ index, text, description, icon }: { index: number; text: string; description?: string; icon?: string }) {
   return (
     <div className="card-block lift flex items-center gap-5 p-5">
       <div className="grid h-14 w-14 shrink-0 place-items-center rounded-2xl border-[3px] border-ink bg-primary font-display text-2xl font-extrabold text-primary-foreground">
-        {index}
+        {icon && icon !== "✦" ? icon : index}
       </div>
-      <p className="font-display text-lg font-bold leading-snug">{text}</p>
+      <div>
+        <p className="font-display text-lg font-bold leading-snug">{text}</p>
+        {description && <p className="mt-1 text-sm opacity-70">{description}</p>}
+      </div>
     </div>
   );
 }
