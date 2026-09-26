@@ -10,15 +10,27 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ChallengeRouteImport } from './routes/challenge'
 import { Route as LeaderboardRouteImport } from './routes/leaderboard'
 import { Route as QuestRouteImport } from './routes/quest'
 import { Route as RulesRouteImport } from './routes/rules'
+import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as AdminParticipantsRouteImport } from './routes/admin.participants'
+import { Route as AdminQuestsRouteImport } from './routes/admin.quests'
+import { Route as AdminRulesRouteImport } from './routes/admin.rules'
+import { Route as AdminThemesRouteImport } from './routes/admin.themes'
+import { Route as AdminXpRouteImport } from './routes/admin.xp'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRoute = AuthRouteImport.update({
@@ -46,14 +58,51 @@ const RulesRoute = RulesRouteImport.update({
   path: '/rules',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminParticipantsRoute = AdminParticipantsRouteImport.update({
+  id: '/participants',
+  path: '/participants',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminQuestsRoute = AdminQuestsRouteImport.update({
+  id: '/quests',
+  path: '/quests',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminRulesRoute = AdminRulesRouteImport.update({
+  id: '/rules',
+  path: '/rules',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminThemesRoute = AdminThemesRouteImport.update({
+  id: '/themes',
+  path: '/themes',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminXpRoute = AdminXpRouteImport.update({
+  id: '/xp',
+  path: '/xp',
+  getParentRoute: () => AdminRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
   '/auth': typeof AuthRoute
   '/challenge': typeof ChallengeRoute
   '/leaderboard': typeof LeaderboardRoute
   '/quest': typeof QuestRoute
   '/rules': typeof RulesRoute
+  '/admin/participants': typeof AdminParticipantsRoute
+  '/admin/quests': typeof AdminQuestsRoute
+  '/admin/rules': typeof AdminRulesRoute
+  '/admin/themes': typeof AdminThemesRoute
+  '/admin/xp': typeof AdminXpRoute
+  '/admin/': typeof AdminIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -62,33 +111,79 @@ export interface FileRoutesByTo {
   '/leaderboard': typeof LeaderboardRoute
   '/quest': typeof QuestRoute
   '/rules': typeof RulesRoute
+  '/admin/participants': typeof AdminParticipantsRoute
+  '/admin/quests': typeof AdminQuestsRoute
+  '/admin/rules': typeof AdminRulesRoute
+  '/admin/themes': typeof AdminThemesRoute
+  '/admin/xp': typeof AdminXpRoute
+  '/admin': typeof AdminIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
   '/auth': typeof AuthRoute
   '/challenge': typeof ChallengeRoute
   '/leaderboard': typeof LeaderboardRoute
   '/quest': typeof QuestRoute
   '/rules': typeof RulesRoute
+  '/admin/participants': typeof AdminParticipantsRoute
+  '/admin/quests': typeof AdminQuestsRoute
+  '/admin/rules': typeof AdminRulesRoute
+  '/admin/themes': typeof AdminThemesRoute
+  '/admin/xp': typeof AdminXpRoute
+  '/admin/': typeof AdminIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/challenge' | '/leaderboard' | '/quest' | '/rules'
+  fullPaths:
+    | '/'
+    | '/admin'
+    | '/auth'
+    | '/challenge'
+    | '/leaderboard'
+    | '/quest'
+    | '/rules'
+    | '/admin/participants'
+    | '/admin/quests'
+    | '/admin/rules'
+    | '/admin/themes'
+    | '/admin/xp'
+    | '/admin/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/challenge' | '/leaderboard' | '/quest' | '/rules'
-  id:
-    | '__root__'
+  to:
     | '/'
     | '/auth'
     | '/challenge'
     | '/leaderboard'
     | '/quest'
     | '/rules'
+    | '/admin/participants'
+    | '/admin/quests'
+    | '/admin/rules'
+    | '/admin/themes'
+    | '/admin/xp'
+    | '/admin'
+  id:
+    | '__root__'
+    | '/'
+    | '/admin'
+    | '/auth'
+    | '/challenge'
+    | '/leaderboard'
+    | '/quest'
+    | '/rules'
+    | '/admin/participants'
+    | '/admin/quests'
+    | '/admin/rules'
+    | '/admin/themes'
+    | '/admin/xp'
+    | '/admin/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRouteWithChildren
   AuthRoute: typeof AuthRoute
   ChallengeRoute: typeof ChallengeRoute
   LeaderboardRoute: typeof LeaderboardRoute
@@ -103,6 +198,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth': {
@@ -140,11 +242,74 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RulesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/participants': {
+      id: '/admin/participants'
+      path: '/participants'
+      fullPath: '/admin/participants'
+      preLoaderRoute: typeof AdminParticipantsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/quests': {
+      id: '/admin/quests'
+      path: '/quests'
+      fullPath: '/admin/quests'
+      preLoaderRoute: typeof AdminQuestsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/rules': {
+      id: '/admin/rules'
+      path: '/rules'
+      fullPath: '/admin/rules'
+      preLoaderRoute: typeof AdminRulesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/themes': {
+      id: '/admin/themes'
+      path: '/themes'
+      fullPath: '/admin/themes'
+      preLoaderRoute: typeof AdminThemesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/xp': {
+      id: '/admin/xp'
+      path: '/xp'
+      fullPath: '/admin/xp'
+      preLoaderRoute: typeof AdminXpRouteImport
+      parentRoute: typeof AdminRoute
+    }
   }
 }
 
+interface AdminRouteChildren {
+  AdminParticipantsRoute: typeof AdminParticipantsRoute
+  AdminQuestsRoute: typeof AdminQuestsRoute
+  AdminRulesRoute: typeof AdminRulesRoute
+  AdminThemesRoute: typeof AdminThemesRoute
+  AdminXpRoute: typeof AdminXpRoute
+  AdminIndexRoute: typeof AdminIndexRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminParticipantsRoute: AdminParticipantsRoute,
+  AdminQuestsRoute: AdminQuestsRoute,
+  AdminRulesRoute: AdminRulesRoute,
+  AdminThemesRoute: AdminThemesRoute,
+  AdminXpRoute: AdminXpRoute,
+  AdminIndexRoute: AdminIndexRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRouteWithChildren,
   AuthRoute: AuthRoute,
   ChallengeRoute: ChallengeRoute,
   LeaderboardRoute: LeaderboardRoute,
