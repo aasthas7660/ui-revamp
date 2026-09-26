@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import original from "@/assets/original-site.jpg";
+import original from "@/assets/original-site.png";
 import mascot from "@/assets/hero-mascot.png";
 import { mockQuest } from "@/data/mock";
 import { Button, PreviewFrame, XPBadge } from "@/components/quest/ui";

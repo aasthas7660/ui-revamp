@@ -8,7 +8,7 @@ export const Route = createFileRoute("/quest")({
       { title: "Quest #01: UI Revamp Challenge" },
       { name: "description", content: "Challenge details, target website, deliverables and AI policy for Quest #01." },
       { property: "og:title", content: "Quest #01: UI Revamp Challenge" },
-      { property: "og:description", content: "Redesign the target website, deploy it and earn +500 XP." },
+      { property: "og:description", content: "Redesign the target website, deploy it and earn +50 XP." },
     ],
   }),
   component: QuestPage,
