@@ -43,7 +43,7 @@ function AuthPage() {
         <h1 className="font-display text-4xl font-extrabold uppercase">Join the quest</h1>
         <p className="mt-3">Sign in with your Google account to submit challenges and earn XP.</p>
         <Button type="button" onClick={go} disabled={busy} className="mt-6 w-full">
-          {busy ? "…" : "Continue with Google"}
+          {busy ? "…" : "Login"}
         </Button>
       </div>
     </div>

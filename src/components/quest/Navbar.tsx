@@ -24,7 +24,7 @@ function AccountButtons({ onDone, full }: { onDone?: () => void; full?: boolean 
       <button
         onClick={() => { onDone?.(); signInWithGoogle().catch((e) => toast.error(e instanceof Error ? e.message : "Sign-in failed")); }}
         className={btnClass("secondary", full ? "w-full" : "px-4 py-2")}
-      >Continue with Google</button>
+      >Login</button>
     );
   }
   const meta = (session.user.user_metadata ?? {}) as { full_name?: string; avatar_url?: string; picture?: string };
