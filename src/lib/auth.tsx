@@ -29,12 +29,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 }
 
 async function ensureProfile(session: Session) {
-  const u = session.user;
-  const meta = (u.user_metadata ?? {}) as { name?: string; username?: string };
-  await supabase.from("profiles").upsert(
-    { id: u.id, email: u.email, name: meta.name ?? null, username: meta.username ?? null },
-    { onConflict: "id", ignoreDuplicates: true },
-  );
+  const meta = (session.user.user_metadata ?? {}) as { full_name?: string; name?: string; avatar_url?: string; picture?: string };
+  await supabase.rpc("sync_my_profile", {
+    _name: meta.full_name ?? meta.name ?? "",
+    _avatar: meta.avatar_url ?? meta.picture ?? "",
+  });
+}
+
+export async function signInWithGoogle() {
+  const { lovable } = await import("@/integrations/lovable/index");
+  const result = await lovable.auth.signInWithOAuth("google", { redirect_uri: window.location.origin });
+  if (result.error) throw result.error;
 }
 
 export const useAuth = () => useContext(Ctx);

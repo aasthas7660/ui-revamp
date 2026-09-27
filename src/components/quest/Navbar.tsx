@@ -3,7 +3,8 @@ import { Link, useNavigate } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
 import { Menu, X } from "lucide-react";
 import { btnClass } from "./ui";
-import { useAuth, useIsAdmin } from "@/lib/auth";
+import { toast } from "sonner";
+import { signInWithGoogle, useAuth, useIsAdmin } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
 
 const links = [
@@ -19,8 +20,16 @@ function AccountButtons({ onDone, full }: { onDone?: () => void; full?: boolean 
   const qc = useQueryClient();
   const navigate = useNavigate();
   if (!session) {
-    return <Link to="/auth" onClick={onDone} className={btnClass("secondary", full ? "w-full" : "px-4 py-2")}>Login</Link>;
+    return (
+      <button
+        onClick={() => { onDone?.(); signInWithGoogle().catch((e) => toast.error(e instanceof Error ? e.message : "Sign-in failed")); }}
+        className={btnClass("secondary", full ? "w-full" : "px-4 py-2")}
+      >Continue with Google</button>
+    );
   }
+  const meta = (session.user.user_metadata ?? {}) as { full_name?: string; avatar_url?: string; picture?: string };
+  const avatar = meta.avatar_url ?? meta.picture;
+  const label = meta.full_name ?? session.user.email ?? "You";
   const signOut = async () => {
     onDone?.();
     await qc.cancelQueries();
@@ -30,8 +39,16 @@ function AccountButtons({ onDone, full }: { onDone?: () => void; full?: boolean 
   };
   return (
     <div className={full ? "space-y-2" : "flex items-center gap-2"}>
+      <div className="flex items-center gap-2" title={label}>
+        {avatar ? (
+          <img src={avatar} alt={label} referrerPolicy="no-referrer" className="h-9 w-9 rounded-full border-2 border-text object-cover" />
+        ) : (
+          <span className="grid h-9 w-9 place-items-center rounded-full border-2 border-text bg-secondary font-display font-extrabold text-secondary-foreground">{label[0]?.toUpperCase()}</span>
+        )}
+        {full && <span className="font-display font-bold">{label}</span>}
+      </div>
       {isAdmin && <Link to="/admin" onClick={onDone} className={btnClass("primary", full ? "w-full" : "px-4 py-2")}>Admin</Link>}
-      <button onClick={signOut} className={btnClass("cream", full ? "w-full" : "px-4 py-2")}>Sign out</button>
+      <button onClick={signOut} className={btnClass("cream", full ? "w-full" : "px-4 py-2")}>Logout</button>
     </div>
   );
 }
