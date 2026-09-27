@@ -72,6 +72,7 @@ export type Database = {
       }
       profiles: {
         Row: {
+          avatar_url: string | null
           created_at: string
           email: string | null
           id: string
@@ -83,6 +84,7 @@ export type Database = {
           username: string | null
         }
         Insert: {
+          avatar_url?: string | null
           created_at?: string
           email?: string | null
           id: string
@@ -94,6 +96,7 @@ export type Database = {
           username?: string | null
         }
         Update: {
+          avatar_url?: string | null
           created_at?: string
           email?: string | null
           id?: string
@@ -357,6 +360,10 @@ export type Database = {
     }
     Functions: {
       is_admin: { Args: never; Returns: boolean }
+      sync_my_profile: {
+        Args: { _avatar: string; _name: string }
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never

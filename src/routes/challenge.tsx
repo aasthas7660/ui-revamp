@@ -3,6 +3,10 @@ import { createFileRoute } from "@tanstack/react-router";
 import original from "@/assets/original-site.png";
 import mascot from "@/assets/hero-mascot.png";
 import { mockQuest } from "@/data/mock";
+import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
+import { signInWithGoogle, useAuth } from "@/lib/auth";
+import { useActiveQuest, toQuest } from "@/lib/db";
 import { Button, PreviewFrame, XPBadge } from "@/components/quest/ui";
 
 export const Route = createFileRoute("/challenge")({
@@ -24,21 +28,35 @@ function ChallengePage() {
   const [live, setLive] = useState("");
   const [preview, setPreview] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const { session } = useAuth();
+  const { data: questRow } = useActiveQuest();
+  const q = questRow ? toQuest(questRow) : mockQuest;
   const valid = isUrl(github) && isUrl(live);
+  const submit = async () => {
+    if (!valid) return;
+    if (!session) { signInWithGoogle().catch(() => toast.error("Sign-in failed")); return; }
+    if (!questRow) { toast.error("No open quest right now"); return; }
+    setSaving(true);
+    const { error } = await supabase.from("submissions").insert({ quest_id: questRow.id, user_id: session.user.id, github_url: github, live_url: live });
+    setSaving(false);
+    if (error) { toast.error(error.message); return; }
+    setSubmitted(true);
+  };
 
   const input = "w-full rounded-2xl border-[3px] border-ink bg-card px-4 py-3 text-card-foreground outline-none transition focus:shadow-[var(--shadow-block)]";
 
   return (
     <div className="mx-auto max-w-6xl px-5 py-12">
       <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
-        <h1 className="font-display text-4xl font-extrabold uppercase md:text-5xl">Quest #{mockQuest.number} Workspace</h1>
-        <XPBadge xp={mockQuest.xp} />
+        <h1 className="font-display text-4xl font-extrabold uppercase md:text-5xl">Quest #{q.number} Workspace</h1>
+        <XPBadge xp={q.xp} />
       </div>
 
       <div className="grid gap-8 md:grid-cols-2">
         <div>
           <h2 className="mb-4 font-display text-xl font-extrabold uppercase text-text/70">Original Design</h2>
-          <PreviewFrame title="Original" url={mockQuest.targetWebsite.url}>
+          <PreviewFrame title="Original" url={q.targetWebsite.url}>
             <img src={original} alt="Original target website" width={1280} height={832} className="h-full w-full object-cover object-top" />
           </PreviewFrame>
         </div>
@@ -61,7 +79,7 @@ function ChallengePage() {
 
       <form
         className="card-block mt-10 grid gap-5 p-6 md:grid-cols-2 md:p-8"
-        onSubmit={(e) => { e.preventDefault(); if (valid) setSubmitted(true); }}
+        onSubmit={(e) => { e.preventDefault(); void submit(); }}
       >
         <label className="block">
           <span className="mb-2 block font-display text-sm font-extrabold uppercase">GitHub Repository URL</span>
@@ -73,12 +91,12 @@ function ChallengePage() {
         </label>
         <div className="flex flex-wrap gap-4 md:col-span-2">
           <Button type="button" variant="cream" disabled={!isUrl(live)} onClick={() => setPreview(live)}>Preview Website</Button>
-          <Button type="submit" disabled={!valid || submitted}>{submitted ? "Submitted ✓" : "Submit Challenge"}</Button>
+          <Button type="submit" disabled={!valid || submitted || saving}>{submitted ? "Submitted ✓" : saving ? "…" : session ? "Submit Challenge" : "Continue with Google to submit"}</Button>
         </div>
         {submitted && (
           <div className="animate-pop rounded-2xl border-[3px] border-ink bg-primary p-5 text-primary-foreground md:col-span-2">
             <div className="font-display text-2xl font-extrabold">Quest complete!</div>
-            <p className="mt-1">Your submission is in. <XPBadge xp={mockQuest.xp} className="ml-1" /> pending review.</p>
+            <p className="mt-1">Your submission is in. <XPBadge xp={q.xp} className="ml-1" /> pending review.</p>
           </div>
         )}
       </form>
