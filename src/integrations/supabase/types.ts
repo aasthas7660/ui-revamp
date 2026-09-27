@@ -360,6 +360,10 @@ export type Database = {
     }
     Functions: {
       is_admin: { Args: never; Returns: boolean }
+      sync_my_profile: {
+        Args: { _avatar: string; _name: string }
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never
