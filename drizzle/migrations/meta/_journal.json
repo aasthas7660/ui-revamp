@@ -8,6 +8,13 @@
       "when": 1790323066273,
       "tag": "0000_phase2_admin_schema",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1790488735616,
+      "tag": "0001_profile_avatar",
+      "breakpoints": true
     }
   ]
 }
