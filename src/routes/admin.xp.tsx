@@ -8,7 +8,19 @@ import { useLeaderboard } from "@/lib/db";
 import { Button } from "@/components/quest/ui";
 import { Input, Panel, Pill, Select } from "@/components/admin/kit";
 
-export const Route = createFileRoute("/admin/xp")({ component: XpAdmin });
+export const Route = createFileRoute("/admin/xp")({
+  head: () => ({
+    meta: [
+      { title: "XP & Submissions — UI Revamp Challenge" },
+      { name: "description", content: "Review quest submissions and manage leaderboard XP." },
+      { property: "og:title", content: "XP & Submissions — UI Revamp Challenge" },
+      { property: "og:description", content: "Review quest submissions and manage leaderboard XP." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
+    ],
+  }),
+  component: XpAdmin,
+});
 
 function XpAdmin() {
   const qc = useQueryClient();

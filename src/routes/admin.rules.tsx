@@ -7,7 +7,19 @@ import type { TablesInsert } from "@/integrations/supabase/types";
 import { Button } from "@/components/quest/ui";
 import { Field, Input, Panel, Pill, Textarea } from "@/components/admin/kit";
 
-export const Route = createFileRoute("/admin/rules")({ component: RulesAdmin });
+export const Route = createFileRoute("/admin/rules")({
+  head: () => ({
+    meta: [
+      { title: "Manage Rules — UI Revamp Challenge" },
+      { name: "description", content: "Edit, reorder and publish challenge rules." },
+      { property: "og:title", content: "Manage Rules — UI Revamp Challenge" },
+      { property: "og:description", content: "Edit, reorder and publish challenge rules." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
+    ],
+  }),
+  component: RulesAdmin,
+});
 
 type Draft = TablesInsert<"rules">;
 

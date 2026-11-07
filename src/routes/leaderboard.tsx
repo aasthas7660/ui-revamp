@@ -9,6 +9,8 @@ export const Route = createFileRoute("/leaderboard")({
       { name: "description", content: "See who's leading the UI Revamp quest by XP." },
       { property: "og:title", content: "Quest Leaderboard — UI Revamp Challenge" },
       { property: "og:description", content: "Top teams and participants ranked by XP." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: LeaderboardPage,

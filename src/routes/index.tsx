@@ -11,6 +11,8 @@ export const Route = createFileRoute("/")({
       { name: "description", content: "Take an existing website. Reimagine its interface. Build your version and earn XP." },
       { property: "og:title", content: "UI Revamp Challenge — Tech Titans Quest" },
       { property: "og:description", content: "Take an existing website. Reimagine its interface. Build your version." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Home,

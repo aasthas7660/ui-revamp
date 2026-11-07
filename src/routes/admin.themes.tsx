@@ -8,7 +8,19 @@ import { useThemes } from "@/lib/db";
 import { Button } from "@/components/quest/ui";
 import { Field, Input, Panel, Pill, Select } from "@/components/admin/kit";
 
-export const Route = createFileRoute("/admin/themes")({ component: ThemesAdmin });
+export const Route = createFileRoute("/admin/themes")({
+  head: () => ({
+    meta: [
+      { title: "Manage Themes — UI Revamp Challenge" },
+      { name: "description", content: "Edit and activate the visual themes used by quests." },
+      { property: "og:title", content: "Manage Themes — UI Revamp Challenge" },
+      { property: "og:description", content: "Edit and activate the visual themes used by quests." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
+    ],
+  }),
+  component: ThemesAdmin,
+});
 
 type Draft = TablesInsert<"themes">;
 const colors = ["primary_color", "secondary_color", "background_color", "card_color", "text_color", "accent_color"] as const;

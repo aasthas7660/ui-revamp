@@ -4,7 +4,19 @@ import { supabase } from "@/integrations/supabase/client";
 import { Panel, Pill } from "@/components/admin/kit";
 import { liveStatus } from "@/lib/db";
 
-export const Route = createFileRoute("/admin/")({ component: Dashboard });
+export const Route = createFileRoute("/admin/")({
+  head: () => ({
+    meta: [
+      { title: "Admin Dashboard — UI Revamp Challenge" },
+      { name: "description", content: "Review quest, participant, submission and rule activity." },
+      { property: "og:title", content: "Admin Dashboard — UI Revamp Challenge" },
+      { property: "og:description", content: "Review quest, participant, submission and rule activity." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
+    ],
+  }),
+  component: Dashboard,
+});
 
 async function count(table: "quests" | "profiles" | "submissions" | "rules" | "themes", filter?: [string, string]) {
   let q = supabase.from(table).select("id", { count: "exact", head: true });
