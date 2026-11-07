@@ -11,7 +11,7 @@ export const Route = createFileRoute("/auth")({
       { title: "Login — UI Revamp Challenge" },
       { name: "description", content: "Sign in to join the UI Revamp Challenge and access your participant account." },
       { property: "og:title", content: "Login — UI Revamp Challenge" },
-      { property: "og:description", content: "Sign in with Google or GitHub to submit your quest and earn XP." },
+      { property: "og:description", content: "Sign in to join the UI Revamp Challenge and access your participant account." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
@@ -79,7 +79,7 @@ function AuthPage() {
 
         <div className="mt-8 space-y-4">
           <button type="button" onClick={google} disabled={!!busy} className={btnClass("cream", "w-full py-4 text-base")}>
-            <GoogleIcon /> {busy === "google" ? "…" : "Continue with Google"}
+            <GoogleIcon /> {busy === "google" ? "…" : "Login"}
           </button>
           <button type="button" onClick={github} disabled={!!busy} className={btnClass("primary", "w-full py-4 text-base")}>
             <GithubIcon /> {busy === "github" ? "…" : "Continue with GitHub"}
@@ -87,7 +87,7 @@ function AuthPage() {
         </div>
 
         <div className="mt-8 border-t-2 border-ink/15 pt-5">
-          <p className="font-display text-sm font-bold">🔒 Secure authentication powered by Supabase.</p>
+          <p className="font-display text-sm font-bold">🔒 Secure authentication powered by Lovable Cloud.</p>
           <p className="mt-1 text-xs text-muted-foreground">By signing in, you agree to the rules of the UI Revamp Challenge.</p>
         </div>
       </div>
