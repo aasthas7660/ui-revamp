@@ -9,6 +9,8 @@ export const Route = createFileRoute("/rules")({
       { name: "description", content: "Eight rules to follow before you start the UI Revamp quest." },
       { property: "og:title", content: "Rules — UI Revamp Challenge" },
       { property: "og:description", content: "Read these before you start the quest." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: RulesPage,

@@ -16,6 +16,8 @@ export const Route = createFileRoute("/challenge")({
       { name: "description", content: "Compare the original design with yours and submit your GitHub and live website." },
       { property: "og:title", content: "Challenge Workspace — UI Revamp" },
       { property: "og:description", content: "Preview your redesign and submit your challenge." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: ChallengePage,

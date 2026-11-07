@@ -7,7 +7,19 @@ import { adjustXp } from "@/lib/xp";
 import { Button } from "@/components/quest/ui";
 import { Input, Panel, Pill } from "@/components/admin/kit";
 
-export const Route = createFileRoute("/admin/participants")({ component: ParticipantsAdmin });
+export const Route = createFileRoute("/admin/participants")({
+  head: () => ({
+    meta: [
+      { title: "Manage Participants — UI Revamp Challenge" },
+      { name: "description", content: "Review participant accounts, status and experience points." },
+      { property: "og:title", content: "Manage Participants — UI Revamp Challenge" },
+      { property: "og:description", content: "Review participant accounts, status and experience points." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
+    ],
+  }),
+  component: ParticipantsAdmin,
+});
 
 function ParticipantsAdmin() {
   const qc = useQueryClient();

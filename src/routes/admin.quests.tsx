@@ -8,7 +8,19 @@ import { QUEST_STATUSES, useThemes, type QuestRow } from "@/lib/db";
 import { Button } from "@/components/quest/ui";
 import { Field, Input, Panel, Pill, Select, Textarea, toLocalInput } from "@/components/admin/kit";
 
-export const Route = createFileRoute("/admin/quests")({ component: QuestsAdmin });
+export const Route = createFileRoute("/admin/quests")({
+  head: () => ({
+    meta: [
+      { title: "Manage Quests — UI Revamp Challenge" },
+      { name: "description", content: "Create, edit and schedule UI Revamp quests." },
+      { property: "og:title", content: "Manage Quests — UI Revamp Challenge" },
+      { property: "og:description", content: "Create, edit and schedule UI Revamp quests." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
+    ],
+  }),
+  component: QuestsAdmin,
+});
 
 type Draft = TablesInsert<"quests">;
 const blank = (): Draft => ({

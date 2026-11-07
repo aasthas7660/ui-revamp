@@ -10,6 +10,8 @@ export const Route = createFileRoute("/admin")({
       { name: "description", content: "Manage quests, themes, rules, participants and XP." },
       { property: "og:title", content: "Admin — UI Revamp Challenge" },
       { property: "og:description", content: "Admin control room for the UI Revamp quest." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
       { name: "robots", content: "noindex" },
     ],
   }),
